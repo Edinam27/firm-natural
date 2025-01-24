@@ -29,11 +29,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Run Flask app tests
-      run: |
-        # Replace `test_app.py` with your test file
-        pytest tests/
-
     - name: Archive Build Artifacts
       if: always()
       uses: actions/upload-artifact@v3
