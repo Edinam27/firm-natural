@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+<style>
+    .hero-small {
+        margin-top: 80px;
+        padding: 60px 0;
+    }
+    
+    .animated-bg {
+        margin-top: 80px;
+    }
+
+    .card {
+        padding: 60px;
+        margin: auto 40px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero-small" data-aos="fade-in">
+    <div class="container">
+
+    </div>
+</section>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Login</h2>
+                    
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    
+                    <form method="POST" action="{{ url_for('main.login') }}">
+                        {{ form.csrf_token }}  <!-- Add this line -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block mt-4">Login</button>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <p>Don't have an account? <a href="{{ url_for('main.register') }}">Register here</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

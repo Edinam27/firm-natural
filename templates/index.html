@@ -1,0 +1,169 @@
+<!-- templates/index.html -->
+{% extends "layout.html" %}
+
+{% block content %}
+<section class="hero" data-aos="fade-in">
+    <div class="water-drops"></div>
+    <div class="hero-content">
+        <h1 class="hero-title">Pure Water, Pure Life</h1>
+        <p class="hero-subtitle">Experience nature's finest, delivered to your doorstep</p>
+        <div class="hero-cta">
+            <a href="{{ url_for('main.products') }}" class="btn btn-custom">Shop Now</a>
+            <a href="#about" class="btn btn-custom-outline">Learn More</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- Why Choose Us Section -->
+<section id="why-choose-us" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Why Choose Us</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="feature-box text-center">
+                    <i class="fas fa-tint fa-3x mb-3"></i>
+                    <h3>Pure Source</h3>
+                    <p>Sourced from pristine natural springs</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="feature-box text-center">
+                    <i class="fas fa-leaf fa-3x mb-3"></i>
+                    <h3>Eco-Friendly</h3>
+                    <p>100% recyclable packaging solutions</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="feature-box text-center">
+                    <i class="fas fa-truck fa-3x mb-3"></i>
+                    <h3>Fast Delivery</h3>
+                    <p>Same-day delivery to your doorstep</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="featured-products" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">Featured Products</h2>
+        <div class="row">
+            <div class="product-grid">
+                {% for product in products %}
+                <div class="product-card" data-aos="fade-up" data-base-price="{{ product.price }}">
+                    <div class="product-badge">Best Seller</div>
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='images/glass.jpg') }}" alt="{{ product.name }}">
+                    </div>
+                    <div class="product-details">
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.description }}</p>
+                        <div class="size-options">
+                            <span class="size-option" data-size="500ml">500ml</span>
+                            <span class="size-option" data-size="1L">1L</span>
+                            <span class="size-option" data-size="2L">2L</span>
+                        </div>
+                        <p class="product-price">${{ "%.2f"|format(product.price) }}</p>
+                        <button class="btn btn-custom add-to-cart" data-product-id="{{ product.id }}">Add to Cart</button>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section id="statistics" class="py-5 bg-light text-dark">   
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3" data-aos="fade-right" data-aos-delay="100">
+                <div class="stat-box text-center">
+                    <h3 class="stat-number" data-count="50000">0</h3>
+                    <p>Happy Customers</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-right" data-aos-delay="200">
+                <div class="stat-box text-center">
+                    <h3 class="stat-number" data-count="100">0</h3>
+                    <p>Cities Served</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-right" data-aos-delay="300">
+                <div class="stat-box text-center">
+                    <h3 class="stat-number" data-count="1000000">0</h3>
+                    <p>Bottles Delivered</p>
+                </div>
+            </div>
+            <div class="col-md-3" data-aos="fade-right" data-aos-delay="400">
+                <div class="stat-box text-center">
+                    <h3 class="stat-number" data-count="95">0</h3>
+                    <p>Satisfaction Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5" data-aos="fade-up">What Our Customers Say</h2>
+        <div class="row">
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="100">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left mb-3"></i>
+                        <p>"The best water delivery service I've ever used. Consistently reliable!"</p>
+                        <h4>John Doe</h4>
+                        <p class="text-muted">Regular Customer</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="200">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left mb-3"></i>
+                        <p>"Love their eco-friendly approach and the quality of water is exceptional."</p>
+                        <h4>Jane Smith</h4>
+                        <p class="text-muted">Business Owner</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="flip-left" data-aos-delay="300">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <i class="fas fa-quote-left mb-3"></i>
+                        <p>"Great service, friendly staff, and always on time with deliveries!"</p>
+                        <h4>Mike Johnson</h4>
+                        <p class="text-muted">Office Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section id="newsletter" class="py-5 bg-light" data-aos="fade-up">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2 class="mb-4">Stay Updated</h2>
+                <p class="mb-4">Subscribe to our newsletter for exclusive offers and updates</p>
+                <form class="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Enter your email">
+                        <button class="btn btn-custom" type="submit">Subscribe</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+{% endblock %}

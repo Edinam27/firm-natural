@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+
+{% block extra_css %}
+<style>
+    .hero-small {
+        margin-top: 80px;
+        padding: 60px 0;
+    }
+    
+    .animated-bg {
+        margin-top: 80px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="hero-small" data-aos="fade-in">
+    <div class="container">
+
+    </div>
+</section>
+<div class="container py-5">
+
+    
+    {% if cart_items %}
+    <div class="row">
+        <!-- Cart Items Column -->
+        <div class="col-lg-8">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item card mb-3">
+                    <div class="row g-0 p-3 align-items-center">
+                        <div class="col-md-3">
+                            <img src="{{ url_for('static', filename='images/glass.jpg') }}" 
+                                 class="img-fluid rounded" 
+                                 alt="{{ item.product.name }}">
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row align-items-center">
+                                <div class="col-md-5">
+                                    <h5 class="card-title mb-2">{{ item.product.name }}</h5>
+                                    <p class="card-text mb-2">Size: {{ item.size }}</p>
+                                    <p class="card-text mb-2">Price: ${{ "%.2f"|format(item.price) }}</p>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="quantity-controls">
+                                        <label>Quantity:</label>
+                                        <div class="d-flex align-items-center">
+                                            <button class="btn btn-sm btn-outline-secondary me-2 update-quantity" 
+                                                    data-product-id="{{ item.product.id }}"
+                                                    data-size="{{ item.size }}"
+                                                    data-action="decrease">-</button>
+                                            <span class="quantity-value">{{ item.quantity }}</span>
+                                            <button class="btn btn-sm btn-outline-secondary ms-2 update-quantity"
+                                                    data-product-id="{{ item.product.id }}"
+                                                    data-size="{{ item.size }}"
+                                                    data-action="increase">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <p class="h5 mb-2">${{ "%.2f"|format(item.total) }}</p>
+                                    <button class="btn btn-sm btn-danger remove-item" 
+                                        data-product-id="{{ item.product.id }}"
+                                        data-size="{{ item.size }}">Remove</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Order Summary Column -->
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h4 class="mb-0">Order Summary</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Subtotal</span>
+                        <span>${{ "%.2f"|format(subtotal) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Shipping</span>
+                        <span>${{ "%.2f"|format(shipping) }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Tax</span>
+                        <span>${{ "%.2f"|format(tax) }}</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-4">
+                        <strong>Total</strong>
+                        <strong>${{ "%.2f"|format(total) }}</strong>
+                    </div>
+                    <a href="{{ url_for('main.checkout') }}" 
+                       class="btn btn-primary w-100">Proceed to Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-cart text-center py-5">
+        <div class="card">
+            <div class="card-body py-5">
+                <h3 class="mb-4">Your cart is empty</h3>
+                <p class="mb-4">Looks like you haven't added any items to your cart yet.</p>
+                <a href="{{ url_for('main.products') }}" 
+                   class="btn btn-primary btn-lg">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.cart-item {
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+}
+
+.cart-item:hover {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.quantity-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.empty-cart {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-cart .card {
+    width: 100%;
+    max-width: 600px;
+}
+</style>
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/cart.js') }}"></script>
+{% endblock %}
+
+{% endblock %}

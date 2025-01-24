@@ -1,0 +1,271 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- Toggle Monthly/Yearly -->
+<div class="text-center mb-5">
+  <div class="form-check form-switch d-inline-block">
+      <input class="form-check-input" type="checkbox" id="billingToggle">
+      <label class="form-check-label" for="billingToggle">
+          <span class="billing-monthly">Monthly</span>
+          <span class="mx-2">/</span>
+          <span class="billing-yearly text-muted">Yearly (Save 15%)</span>
+      </label>
+  </div>
+</div>
+
+<!-- Subscription Cards -->
+<div class="row g-4 position-relative">
+  <!-- Basic Plan -->
+  <div class="col-lg-4">
+      <div class="card h-100 plan-card shadow-sm hover-lift">
+          <div class="card-body p-4">
+              <div class="text-center">
+                  <div class="plan-icon mb-4">
+                      <i class="fas fa-glass-water fa-2x text-primary"></i>
+                  </div>
+                  <h3 class="plan-title mb-1">Basic Hydration</h3>
+                  <div class="plan-price">
+                      <h2 class="display-4 fw-bold mb-0">
+                          <small class="fs-6 text-muted">$</small>29
+                          <small class="fs-6 text-muted">/mo</small>
+                      </h2>
+                  </div>
+              </div>
+
+              <hr class="my-4">
+
+              <ul class="plan-features list-unstyled">
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>4 x 5-gallon bottles monthly</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Monthly scheduled delivery</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Basic water dispenser rental</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Email support</span>
+                  </li>
+              </ul>
+
+              <button class="btn btn-outline-primary btn-lg w-100 mt-4" 
+                      onclick="selectPlan('basic', 29.00, '{{ subscription_plans[0].stripe_price_id }}')">
+                  Get Started
+              </button>
+          </div>
+      </div>
+  </div>
+
+  <!-- Premium Plan -->
+  <div class="col-lg-4">
+      <div class="card h-100 plan-card shadow border-primary hover-lift">
+          <div class="popular-badge">Most Popular</div>
+          <div class="card-body p-4">
+              <div class="text-center">
+                  <div class="plan-icon mb-4">
+                      <i class="fas fa-droplet fa-2x text-primary"></i>
+                  </div>
+                  <h3 class="plan-title mb-1">Premium Hydration</h3>
+                  <div class="plan-price">
+                      <h2 class="display-4 fw-bold mb-0">
+                          <small class="fs-6 text-muted">$</small>49
+                          <small class="fs-6 text-muted">/mo</small>
+                      </h2>
+                  </div>
+              </div>
+
+              <hr class="my-4">
+
+              <ul class="plan-features list-unstyled">
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>8 x 5-gallon bottles monthly</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Bi-weekly delivery</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Premium water dispenser rental</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Priority customer support</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Mobile app access</span>
+                  </li>
+              </ul>
+
+              <button class="btn btn-primary btn-lg w-100 mt-4" 
+                      onclick="selectPlan('premium', 49.00, '{{ subscription_plans[1].stripe_price_id }}')">
+                  Get Started
+              </button>
+          </div>
+      </div>
+  </div>
+
+  <!-- Business Plan -->
+  <div class="col-lg-4">
+      <div class="card h-100 plan-card shadow-sm hover-lift">
+          <div class="card-body p-4">
+              <div class="text-center">
+                  <div class="plan-icon mb-4">
+                      <i class="fas fa-building-water fa-2x text-primary"></i>
+                  </div>
+                  <h3 class="plan-title mb-1">Business Hydration</h3>
+                  <div class="plan-price">
+                      <h2 class="display-4 fw-bold mb-0">
+                          <small class="fs-6 text-muted">$</small>89
+                          <small class="fs-6 text-muted">/mo</small>
+                      </h2>
+                  </div>
+              </div>
+
+              <hr class="my-4">
+
+              <ul class="plan-features list-unstyled">
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>16 x 5-gallon bottles monthly</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Weekly delivery</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>2 Premium dispensers rental</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>24/7 dedicated support</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Account manager</span>
+                  </li>
+                  <li class="d-flex align-items-center mb-3">
+                      <i class="fas fa-check text-success me-3"></i>
+                      <span>Custom delivery schedule</span>
+                  </li>
+              </ul>
+
+              <button class="btn btn-outline-primary btn-lg w-100 mt-4" 
+                      onclick="selectPlan('business', 89.00, '{{ subscription_plans[2].stripe_price_id }}')">
+                  Get Started
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Additional Features -->
+<div class="row mt-5 pt-5 g-4">
+  <div class="col-md-4">
+      <div class="feature-card text-center p-4">
+          <div class="feature-icon mb-3">
+              <i class="fas fa-leaf fa-3x text-success"></i>
+          </div>
+          <h4>Eco-Friendly</h4>
+          <p class="text-muted mb-0">Our reusable bottles and sustainable practices help reduce plastic waste</p>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="feature-card text-center p-4">
+          <div class="feature-icon mb-3">
+              <i class="fas fa-truck fa-3x text-primary"></i>
+          </div>
+          <h4>Reliable Delivery</h4>
+          <p class="text-muted mb-0">Track your delivery in real-time with our mobile app</p>
+      </div>
+  </div>
+  <div class="col-md-4">
+      <div class="feature-card text-center p-4">
+          <div class="feature-icon mb-3">
+              <i class="fas fa-medal fa-3x text-warning"></i>
+          </div>
+          <h4>Quality Guaranteed</h4>
+          <p class="text-muted mb-0">Pure, fresh water that exceeds quality standards</p>
+      </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const stripe = Stripe('your_publishable_key');
+    const elements = stripe.elements();
+    const card = elements.create('card');
+    card.mount('#card-element');
+
+    const subscribeButtons = document.querySelectorAll('.subscribe-btn');
+    const modal = document.getElementById('subscriptionModal');
+    let selectedPlanId = null;
+
+    subscribeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            selectedPlanId = this.dataset.planId;
+            document.getElementById('planName').textContent = this.dataset.planName;
+            document.getElementById('planPrice').textContent = this.dataset.planPrice;
+            $('#subscriptionModal').modal('show');
+        });
+    });
+
+    document.getElementById('confirmSubscription').addEventListener('click', async function(e) {
+        e.preventDefault();
+        this.disabled = true;
+        
+        try {
+            const result = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            });
+
+            if (result.error) {
+                document.getElementById('card-errors').textContent = result.error.message;
+                this.disabled = false;
+                return;
+            }
+
+            // Send to your server
+            const response = await fetch('/api/create-subscription', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    paymentMethodId: result.paymentMethod.id,
+                    planId: selectedPlanId
+                }),
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = '/subscription/success';
+            } else {
+                document.getElementById('card-errors').textContent = data.error;
+                this.disabled = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('card-errors').textContent = 'An error occurred. Please try again.';
+            this.disabled = false;
+        }
+    });
+});
+</script>
+{% endblock %}

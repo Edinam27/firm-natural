@@ -1,0 +1,264 @@
+{% extends "layout.html" %}
+
+{% block title %}Register - PureFlow{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+
+    .form-section {
+        display: none;
+    }
+    .form-section.active {
+        display: block;
+    }
+    .user-type-fields {
+        display: none;
+    }
+    .containerx {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        border-radius: 8px;
+    }
+    .progress {
+        margin-bottom: 2rem;
+    }
+    .btn-navigation {
+        margin-top: 1rem;
+    }
+
+    .hero-small {
+        margin-top: 50px;
+        padding: 60px 0;
+    }
+    
+    .animated-bg {
+        margin-top: 80px;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<section class="hero-small" data-aos="fade-in">
+    <div class="containerS">
+
+
+    </div>
+</section>
+
+    <div class="containerx">
+        <h2 class="text-center mb-4">Create Account</h2>
+        
+        <!-- Progress Bar -->
+        <div class="progress mb-4">
+            <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Step 1 of 2</div>
+        </div>
+
+        <form id="registrationForm" method="POST" action="/register">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+            <!-- Step 1: Basic Information -->
+            <div class="form-section active" id="step1">
+                <h4 class="mb-3">Account Information</h4>
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="user_type">Type of User</label>
+                    <select class="form-control" id="user_type" name="user_type" required>
+                        <option value="">Select user type</option>
+                        <option value="individual">Individual</option>
+                        <option value="company">Company</option>
+                        <option value="charity">Charity</option>
+                        <option value="group">Group</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Step 2: Type-specific Information -->
+            <div class="form-section" id="step2">
+                <!-- Individual Fields -->
+                <div id="individual-fields" class="user-type-fields">
+                    <h4 class="mb-3">Individual Information</h4>
+                    <div class="form-group mb-3">
+                        <label for="first_name">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="phone">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                </div>
+
+                <!-- Company Fields -->
+                <div id="company-fields" class="user-type-fields">
+                    <h4 class="mb-3">Company Information</h4>
+                    <div class="form-group mb-3">
+                        <label for="company_name">Company Name</label>
+                        <input type="text" class="form-control" id="company_name" name="company_name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="registration_number">Registration Number</label>
+                        <input type="text" class="form-control" id="registration_number" name="registration_number">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="contact_person">Contact Person</label>
+                        <input type="text" class="form-control" id="contact_person" name="contact_person">
+                    </div>
+                </div>
+
+                <!-- Charity Fields -->
+                <div id="charity-fields" class="user-type-fields">
+                    <h4 class="mb-3">Charity Information</h4>
+                    <div class="form-group mb-3">
+                        <label for="charity_name">Charity Name</label>
+                        <input type="text" class="form-control" id="charity_name" name="charity_name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="charity_number">Charity Number</label>
+                        <input type="text" class="form-control" id="charity_number" name="charity_number">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="mission_statement">Mission Statement</label>
+                        <textarea class="form-control" id="mission_statement" name="mission_statement"></textarea>
+                    </div>
+                </div>
+
+                <!-- Group Fields -->
+                <div id="group-fields" class="user-type-fields">
+                    <h4 class="mb-3">Group Information</h4>
+                    <div class="form-group mb-3">
+                        <label for="group_name">Group Name</label>
+                        <input type="text" class="form-control" id="group_name" name="group_name">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="group_type">Group Type</label>
+                        <input type="text" class="form-control" id="group_type" name="group_type">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="member_count">Number of Members</label>
+                        <input type="number" class="form-control" id="member_count" name="member_count">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="d-flex justify-content-between btn-navigation">
+                <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">Previous</button>
+                <button type="button" class="btn btn-primary" id="nextBtn">Next</button>
+                <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">Register</button>
+            </div>
+        </form>
+
+        <div class="text-center mt-3">
+            <p>Already have an account? <a href="/login">Log in</a></p>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let currentStep = 1;
+            const totalSteps = 2;
+
+            // Handle user type selection
+            $('#user_type').change(function() {
+                const selectedType = $(this).val();
+                $('.user-type-fields').hide();
+                if (selectedType) {
+                    $(`#${selectedType}-fields`).show();
+                }
+            });
+
+            // Navigation buttons
+            $('#nextBtn').click(function() {
+                if (currentStep < totalSteps) {
+                    if (validateStep(currentStep)) {
+                        currentStep++;
+                        updateFormDisplay();
+                    }
+                }
+            });
+
+            $('#prevBtn').click(function() {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateFormDisplay();
+                }
+            });
+
+            function updateFormDisplay() {
+                $('.form-section').removeClass('active');
+                $(`#step${currentStep}`).addClass('active');
+                
+                // Update progress bar
+                const progress = (currentStep - 1) / (totalSteps - 1) * 100;
+                $('.progress-bar').css('width', `${progress}%`);
+                $('.progress-bar').text(`Step ${currentStep} of ${totalSteps}`);
+
+                // Update buttons
+                if (currentStep === 1) {
+                    $('#prevBtn').hide();
+                    $('#nextBtn').show();
+                    $('#submitBtn').hide();
+                } else if (currentStep === totalSteps) {
+                    $('#prevBtn').show();
+                    $('#nextBtn').hide();
+                    $('#submitBtn').show();
+                } else {
+                    $('#prevBtn').show();
+                    $('#nextBtn').show();
+                    $('#submitBtn').hide();
+                }
+            }
+
+            function validateStep(step) {
+                if (step === 1) {
+                    const email = $('#email').val();
+                    const password = $('#password').val();
+                    const confirmPassword = $('#confirm_password').val();
+                    const userType = $('#user_type').val();
+
+                    if (!email || !password || !confirmPassword || !userType) {
+                        alert('Please fill in all required fields');
+                        return false;
+                    }
+
+                    if (password !== confirmPassword) {
+                        alert('Passwords do not match');
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            // Form submission
+            $('#registrationForm').submit(function(e) {
+                if (!validateStep(currentStep)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}

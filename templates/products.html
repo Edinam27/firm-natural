@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}Our Products - PureFlow{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}">
+<style>
+    .hero-small {
+        margin-top: 80px;
+        padding: 60px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
+<section class="hero-small" data-aos="fade-in">
+    <div class="container">
+        <h1 class="display-4">Our Products</h1>
+        <p class="lead">Pure hydration for every lifestyle</p>
+    </div>
+</section>
+
+<section class="products-section py-5">
+    <div class="container">
+        <div class="product-grid">
+            {% for product in products %}
+            <div class="product-card" data-aos="fade-up" data-base-price="{{ product.price }}">
+                <div class="product-badge">Best Seller</div>
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='images/glass.jpg') }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-details">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <select id="size-select-{{ product.id }}" class="size-select">
+                        <option value="">Select Size</option>
+                        <option value="S">Small</option>
+                        <option value="L">Large</option>
+                        <option value="LL">Extra Large</option>
+                    </select>
+                    <p class="product-price">${{ "%.2f"|format(product.price) }}</p>
+                    <button onclick="addToCart('{{ product.id }}')">Add to Cart</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+            <!-- Similar product cards for other products -->
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/products.js') }}"></script>
+{% endblock %}
