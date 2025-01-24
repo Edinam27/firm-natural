@@ -1,18 +1,14 @@
-name: Flask App Build & Deploy
+name: Flask App Deployment to Heroku
 
 on:
   push:
     branches:
       - main
       - master
-  pull_request:
-    branches:
-      - main
-      - master
   workflow_dispatch:
 
 jobs:
-  build-test:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,31 +25,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Archive Build Artifacts
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: flask-build-artifact
-        path: .
-        retention-days: 3
+    - name: Install Heroku CLI
+      run: |
+        curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
 
-  deploy:
-    needs: build-test
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.12
-
-    - name: Deploy to Heroku (example)
+    - name: Authenticate with Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        pip install gunicorn
-        heroku create your-flask-app-name
-        git push heroku main
+        echo $HEROKU_API_KEY | heroku auth:token > ~/.netrc
+
+    - name: Deploy to Heroku
+      run: |
+        heroku create your-app-name  # Replace 'your-app-name' with the desired Heroku app name
+        git push https://git.heroku.com/your-app-name.git main
