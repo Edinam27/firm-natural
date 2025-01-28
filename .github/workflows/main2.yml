@@ -1,4 +1,4 @@
-name: Flask App Deployment to Heroku
+name: Flask App Deployment
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout Code
       uses: actions/checkout@v4
 
     - name: Set up Python
@@ -20,22 +20,14 @@ jobs:
       with:
         python-version: 3.12
 
-    - name: Install dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Install Heroku CLI
-      run: |
-        curl https://cli-assets.heroku.com/install-ubuntu.sh | sh
-
-    - name: Authenticate with Heroku
+    - name: Deploy to Railway/Render
       env:
-        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }} # For Railway
+        RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }} # For Render
       run: |
-        echo $HEROKU_API_KEY | heroku auth:token > ~/.netrc
-
-    - name: Deploy to Heroku
-      run: |
-        heroku create your-app-name  # Replace 'your-app-name' with the desired Heroku app name
-        git push https://git.heroku.com/your-app-name.git main
+        echo "Follow deployment instructions on Railway/Render dashboards."
