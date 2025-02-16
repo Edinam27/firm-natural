@@ -16,3 +16,4 @@ pillow
 gunicorn
 pytest
 coverage
+stripe
