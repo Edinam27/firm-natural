@@ -1,44 +1,34 @@
-# app.py
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
 from extensions import db, login_manager
 from config import Config
-from flask_wtf.csrf import CSRFProtect
 
 def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'pureflow-secret-key'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///pureflow.db'
-    
-    csrf = CSRFProtect(app)
+    app.config.from_object(config_class)
     
     # Initialize extensions
     db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = 'main.login'
-    login_manager.login_message_category = 'info'
-
-    # Import models
-    from models import User, SubscriptionPlan
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.get(int(user_id))
-
+    
+    # Initialize migrate after db
+    migrate = Migrate(app, db)
+    
     # Register blueprints
     from routes import bp
     app.register_blueprint(bp)
-
-    # Create tables within app context
+    
+    # Create database tables if they don't exist
     with app.app_context():
         db.create_all()
-        from routes import initialize_subscription_plans
-        initialize_subscription_plans()
-
+    
     return app
 
-
-
-app = create_app(Config)
+# Don't create app instance here, let create_app handle it
+# This allows for more flexibility in testing and deployment
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app = create_app()
+    app.run(debug=True, port=5002)
